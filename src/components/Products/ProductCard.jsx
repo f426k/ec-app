@@ -72,7 +72,7 @@ const ProductCard = (props) => {
                     <Typography color="textSecondary" component="p">
                         {props.name}
                     </Typography>
-                    <Typography component="p">
+                    <Typography className={classes.price} component="p">
                         ¥{price}
                     </Typography>
                 </div>

@@ -67,12 +67,12 @@ const SetSizeArea = (props) => {
     
     const deleteSize = (deleteIndex) => {
         const newSizes = props.sizes.filter((item, i) => i !== deleteIndex);
-        props.setSizes(newSizes)
-    };
+        props.setSizes(newSizes);
+    }
     
     const memoIndex = useEffect(() => {
     setIndex(props.sizes.length);
-  }, [props.sizes.length]);
+  }, [props.sizes.length])
     
     return (
         <div>

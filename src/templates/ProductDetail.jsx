@@ -1,9 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector} from "react-redux";
-import {db} from '../firebase/index';
+import {db, FirebaseTimestamp} from '../firebase';
 import {makeStyles} from "@material-ui/core/styles";
 import HTMLReactParser from "html-react-parser";
 import {ImageSwiper, SizeTable} from "../components/Products";
+import {useDispatch} from "react-redux";
+import {addProductToCart} from "../reducks/users/operations";
+
 
 const useStyles = makeStyles((theme) => ({
     sliderBox: {
@@ -45,21 +48,39 @@ const returnCodeToBr = (text) => {
 };
 
 const ProductDetail = () => {
+
     const classes = useStyles();
+    const dispatch = useDispatch();
     const selector = useSelector((state) => state);
     const path = selector.router.location.pathname;
     const id = path.split('/product/')[1];
     
-    const [product, setProduct] = useState(null);
+    const [product, setProduct] = useState("");
+    
     
     useEffect(() => {
-        db.collection('products').doc(id).get()
-            .then(doc => {
-                const data = doc.data();
-                setProduct(data)
-            })
-    }, []);
+        db.collection('products').doc(id).get().then(doc => {
+            const data = doc.data()
+            setProduct(data)
+        })
+    },[])
     
+    const addProduct = useCallback((selectedSize) => {
+        const timestamp = FirebaseTimestamp.now();
+        dispatch(addProductToCart({
+            added_at: timestamp,
+            description: product.description,
+            gender: product.gender,
+            images: product.images,
+            name: product.name,
+            price: product.price,
+            productId: product.id,
+            quantity: 1,
+            size: selectedSize
+        }))
+    }, [product]);
+    
+
     return (
         <section className="c-section-wrapin">
             {product && (
@@ -69,9 +90,9 @@ const ProductDetail = () => {
                     </div>
                     <div className={classes.detail}>
                         <h2 className="u-text__headline">{product.name}</h2>
-                        <p className={classes.price}>{product.price.toLocaleString()}</p>
+                        <p className={classes.price}>¥{(product.price).toLocaleString()}</p>
                         <div className="module-spacer--small" />
-                        <SizeTable sizes={product.sizes} />
+                        <SizeTable addProduct={addProduct} sizes={product.sizes} />
                         <div className="module-spacer--small" />
                         <p>{returnCodeToBr(product.description)}</p>
                     </div>

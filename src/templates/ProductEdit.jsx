@@ -2,15 +2,13 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {SelectBox, TextInput, PrimaryButton} from "../components/UIkit";
 import {useDispatch} from "react-redux";
 import {saveProduct} from "../reducks/products/operations";
-import ImageArea from "../components/Products/ImageArea";
-import SetSizeArea from "../components/Products/SetSizeArea";
+import {ImageArea, SetSizeArea} from "../components/Products";
 import {db} from "../firebase/index";
 
 const ProductEdit = () => {
-    
     const dispatch = useDispatch();
+    
     let id = window.location.pathname.split('/product/edit')[1];
-
     if (id !== "") {
         id = id.split('/')[1]
     }
@@ -52,7 +50,7 @@ const ProductEdit = () => {
             if (id !== "") {
                 db.collection('products').doc(id).get()
                     .then(snapshot => {
-                        const data = snapshot.data()
+                        const data = snapshot.data();
                         setImages(data.images);
                         setName(data.name);
                         setDescription(data.description);

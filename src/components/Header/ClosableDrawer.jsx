@@ -13,7 +13,7 @@ import HistoryIcon from '@material-ui/icons/History';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {TextInput} from '../UIkit/index';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {push} from "connected-react-router";
 import {signOut} from '../../reducks/users/operations';
 
@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
+        width: 256
+    },
+    searchField: {
         alignItems: 'center',
         display: 'flex',
         marginleft: 32
@@ -68,7 +71,10 @@ const ClosableDrawer = (props) => {
                 classes={{paper: classes.drawerPaper}}
                 ModalProps={{keepMounted:true}}
             >
-                <div>
+                <div
+                    onClose={(e) => props.onClose(e)}
+                    onKeyDown={(e) => props.onClose(e)}
+                >
                     <div className={classes.searchField}>
                         <TextInput
                             fullWidth={false} label={"キーワードを入力"} multiline={false}
