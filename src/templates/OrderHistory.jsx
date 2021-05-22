@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/styles";
