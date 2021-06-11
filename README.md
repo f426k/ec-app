@@ -2,4 +2,4 @@
 <br />
 https://ec-app-new.web.app/
 <br />
-React,CSS,Material UIを使用。
+React,JavaScript,CSS,Material UIを使用。
